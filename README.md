@@ -11,18 +11,19 @@ This metadata is then written to a .csv file formatted in the manner required by
 
 This tool is developed for linux. Most likely it could be modified for Windows, but at the moment that is not officially supported.
 
-##Dependencies##
-    - [Grobid](https://grobid.readthedocs.io/en/latest/Install-Grobid/)
-        - Should be installed in grobid folder
+##Dependencies
 
-    - pdftotext
-        Included with most linux distributions. Is also (supposedly) part of the windows Xpdf port.
+- [Grobid](https://grobid.readthedocs.io/en/latest/Install-Grobid/)
+    - Should be installed in grobid folder
 
-    - Python3
-        - lxml
-            - Install lxml by running `pip install lxml`
+- pdftotext
+    Included with most linux distributions. Is also (supposedly) part of the windows Xpdf port.
 
-##Usage##
+- Python3
+    - lxml
+        - Install lxml by running `pip install lxml`
+
+##Usage
 
 1. Update metadata.py to reflect new data
     - i.e. change I4A_PATH, PDF_DIR, DOC_DATE, DATE_ADDED
