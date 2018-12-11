@@ -86,7 +86,6 @@ def generate_intermediate_files(pdf_filenames):
 def extract_metadata(filename):
     tree = etree.parse(open(filename))
 
-
     # Title
     title = tree.find(".//tei:title", NS).text
 
@@ -123,9 +122,16 @@ def extract_metadata(filename):
 
 
 def parse_keywords_file():
+    # If KEYWORD_FILE contains "antenna", "antenna measurement", and "open range"
+    #   return will be:
+    #   [{"antenna": {"measurement": {}}, "open": {"range":{}}},
+    #    set["antenna", "antenna measurement", "open range"]]
+
     def tree():
         return defaultdict(tree)
 
+    # Turns default dict tree into regular dict tree
+    #   Probably not necessary, but just in case, dicts should be more predictable
     def untree(d):
         if isinstance(d, defaultdict):
             for k, v in d.items():
@@ -148,7 +154,14 @@ def parse_keywords_file():
     return [untree(keywords_tree), key_phrases]
 
 
-def get_keywords(pdf_filename, keywords_tree, key_phrases):
+def get_keywords(pdf_filename, keywords_tree, key_phrases_set):
+    # Returns all key phrases in KEYWORD_FILE that are present in pdf_filename
+    #
+    # Tree is for efficiently finding multi-word phrases
+    # Phrases set is for allowing partial phrases to be discarded
+    #   e.g. if phrases "antenna," "antenna measurement," and "open range"
+    #   are present, we don't want to pick up "open" if not followed by range
+
     paper_keywords = set([])
     # Assume txt already generated
     with open(pdf_filename.replace("pdf", "txt")) as f:
@@ -169,7 +182,7 @@ def get_keywords(pdf_filename, keywords_tree, key_phrases):
                 else:
                     break
 
-    return paper_keywords.intersection(key_phrases)
+    return paper_keywords.intersection(key_phrases_set)
 
 
 def get_category_ids(pdf_filename):
@@ -239,15 +252,8 @@ def build_metadata_dict(pdf_filenames):
 
 
 if __name__ == "__main__":
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
     pdf_filenames = get_pdf_filenames(PDF_DIR)
+    generate_intermediate_files(pdf_filenames)
     keywords_tree, key_phrases = parse_keywords_file()
-    # print("Keywords:\n", get_keywords(os.path.join(PDF_DIR, 'A18-0006.pdf'), keywords_tree, key_phrases))
-    # print("\nCategory IDs:\n", get_category_ids(os.path.join(PDF_DIR, 'A18-0006.pdf')))
-    # print(pdf_filenames)
-    # generate_intermediate_files(pdf_filenames)
     metadata_dict = build_metadata_dict(pdf_filenames)
     build_i4a_upload(metadata_dict, keywords_tree, key_phrases)
-    # pp.pprint(metadata_dict)
-    # print(extract_metadata(os.path.join(PDF_DIR, 'A18-0006.pdf.tei.xml')))
