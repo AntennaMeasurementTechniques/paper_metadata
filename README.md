@@ -25,10 +25,10 @@ This tool is developed for linux. Most likely it could be modified for Windows, 
 
 ## Usage
 
-1. Update metadata.py to reflect new data
-    - i.e. change I4A_PATH, PDF_DIR, DOC_DATE, DATE_ADDED
-2. Run metadata.py
-3. Output will be saved as a csv in PDF_DIR, save this csv as .xls
+1. Update `metadata.py` to reflect new data
+    - i.e. change `I4A_PATH`, `PDF_DIR`, `DOC_DATE`, `DATE_ADDED`
+2. Run `metadata.py`
+3. Output will be saved as a .csv in `PDF_DIR`, save this .csv as .xls
 4. Upload papers to i4a
     - Content/Manage Files/Files/amta_paper_archive/20XX
 5. Upload .xls file
