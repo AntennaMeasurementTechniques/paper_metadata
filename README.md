@@ -4,7 +4,7 @@ This tool is for extracting metadata from research papers.  It extracts the foll
 - Authors
 - Abstract
 - Keywords and phrases
-    - `keywords.txt` contains the master list of keywords we check for
+    - The master list of keywords can be found in `keywords.txt`
 - i4a category ids
 
 This metadata is then written to a .csv file formatted in the manner required by i4a.
